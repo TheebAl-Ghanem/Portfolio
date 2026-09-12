@@ -1,7 +1,7 @@
 #!/bin/bash
 # Re-encode originals in masters/ into web-ready files in public/data/.
 # Skips anything already encoded, so it is safe to re-run after adding media.
-# Requires ffmpeg (brew install ffmpeg).
+# Requires ffmpeg and cwebp (brew install ffmpeg webp).
 set -u
 cd "$(dirname "$0")/.."
 
@@ -22,11 +22,11 @@ done
 
 find masters -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print0 |
 while IFS= read -r -d '' f; do
-  out="public/data/${f#masters/}"; out="${out%.*}.jpg"
+  out="public/data/${f#masters/}"; out="${out%.*}.webp"
   mkdir -p "$(dirname "$out")"
   [ -f "$out" ] && continue
   echo "image: $f"
-  ffmpeg -nostdin -v error -y -i "$f" -vf "scale='min(2000,iw)':-2" -q:v 4 "$out" </dev/null || echo "FAILED: $f"
+  cwebp -quiet -q 80 -resize 1400 0 "$f" -o "$out" || echo "FAILED: $f"
 done
 
 echo "Done. Run 'npm run build' to refresh the manifest."

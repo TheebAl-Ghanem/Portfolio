@@ -27,6 +27,31 @@ const formatMediaTitle = (fileName) => {
     return withoutExt.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
 };
 
+const useInViewVideo = () => {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const video = ref.current;
+        if (!video) return undefined;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        observer.observe(video);
+        return () => observer.disconnect();
+    }, []);
+
+    return ref;
+};
+
 const stripExtension = (fileName) => fileName.replace(/\.[^.]+$/, '');
 
 const getMediaType = (fileName) => {
@@ -86,7 +111,7 @@ const App = () => {
                                     type: mediaType,
                                     file: encodeURI(`${BASE_URL}data/${folderName}/${fileName}`),
                                     poster: mediaType === 'video'
-                                        ? encodeURI(`${BASE_URL}posters/${folderName}/${stripExtension(fileName)}.jpg`)
+                                        ? encodeURI(`${BASE_URL}posters/${folderName}/${stripExtension(fileName)}.webp`)
                                         : null
                                 };
                             })
@@ -122,11 +147,11 @@ const App = () => {
     }, []);
 
     const firstCampaignId = campaigns[0]?.id;
-    const heroItem = campaigns
-        .flatMap((campaign) => campaign.items)
-        .find((item) => item.type === 'video');
-    const heroVideo = heroItem?.file;
-    const heroPoster = heroItem?.poster;
+    // A short, heavily compressed loop. The hero renders it at 30% opacity in
+    // grayscale, so fidelity matters far less than weight here.
+    const aboutVideoRef = useInViewVideo();
+    const heroVideo = `${BASE_URL}hero/loop.mp4`;
+    const heroPoster = `${BASE_URL}hero/poster.webp`;
 
     const MediaReel = ({ item, isPlaying, onToggle }) => {
         const videoRef = useRef(null);
@@ -152,19 +177,30 @@ const App = () => {
                 className={`min-w-[70vw] md:min-w-[380px] aspect-[9/16] bg-zinc-950 rounded-[32px] overflow-hidden relative group snap-start border border-white/5 transition-all duration-700 ${isVideo ? 'cursor-pointer' : 'cursor-default'} ${isPlaying ? 'ring-2 ring-white/30' : ''}`}
             >
                 {isVideo ? (
-                    <video
-                        ref={videoRef}
-                        loop
-                        playsInline
-                        preload="none"
-                        poster={item.poster || undefined}
-                        muted={!isPlaying}
-                        className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100 scale-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
-                        onMouseEnter={e => !isPlaying && e.currentTarget.play()}
-                        onMouseLeave={e => !isPlaying && e.currentTarget.pause()}
-                    >
-                        <source src={item.file} type="video/mp4" />
-                    </video>
+                    <>
+                        {item.poster ? (
+                            <img
+                                src={item.poster}
+                                alt=""
+                                aria-hidden="true"
+                                loading="lazy"
+                                decoding="async"
+                                className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
+                            />
+                        ) : null}
+                        <video
+                            ref={videoRef}
+                            loop
+                            playsInline
+                            preload="none"
+                            muted={!isPlaying}
+                            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100 scale-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
+                            onMouseEnter={e => !isPlaying && e.currentTarget.play()}
+                            onMouseLeave={e => !isPlaying && e.currentTarget.pause()}
+                        >
+                            <source src={item.file} type="video/mp4" />
+                        </video>
+                    </>
                 ) : (
                     <img
                         src={item.file}
@@ -342,7 +378,7 @@ const App = () => {
 
                     <div className="relative w-full lg:w-1/2 h-[70vh] grayscale hover:grayscale-0 transition-all duration-1000 group">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#070707] to-transparent z-10 w-32" />
-                        <video autoPlay muted loop playsInline poster={heroPoster || undefined} className="h-full w-full object-cover rounded-l-3xl lg:rounded-none">
+                        <video ref={aboutVideoRef} muted loop playsInline preload="none" poster={heroPoster || undefined} className="h-full w-full object-cover rounded-l-3xl lg:rounded-none">
                             {heroVideo ? <source src={heroVideo} type="video/mp4" /> : null}
                         </video>
                         <div className="absolute inset-0 border-y border-l border-white/10 rounded-l-3xl lg:rounded-none pointer-events-none" />
