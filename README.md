@@ -91,6 +91,18 @@ To re-encode after adding new masters:
 
 It skips files that already exist, so it only processes what is new.
 
+Then regenerate the poster frames used by the grid:
+
+```bash
+./scripts/generate-posters.sh
+```
+
+This writes one JPEG per video into `public/posters/`, mirroring the campaign
+folders. The grid sets `preload="none"` on every video and shows these posters
+instead, so opening the site downloads a few hundred KB of stills rather than
+every clip at once. Clips load when hovered or clicked. A video without a
+poster still works; the card just starts out blank.
+
 ## Data flow
 
 - Script: `scripts/generate-manifest.mjs`
