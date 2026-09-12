@@ -61,6 +61,92 @@ const getMediaType = (fileName) => {
     return 'unknown';
 };
 
+// Declared at module scope on purpose. Nested inside App it became a new
+// component type on every render, so React unmounted and remounted all 29
+// cards each time state changed - destroying the <video> element mid-load
+// and discarding whatever had started playing.
+const MediaReel = ({ item, isPlaying, onToggle }) => {
+    const videoRef = useRef(null);
+    const isVideo = item.type === 'video';
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!isVideo || !video || isPlaying) return;
+
+        video.muted = true;
+        video.pause();
+    }, [isPlaying, isVideo]);
+
+    // Playback has to start inside the tap/click handler itself. Starting it
+    // from an effect runs outside the user-gesture context, and mobile
+    // browsers refuse to play unmuted video that way: the reel would load
+    // and unmute but never actually start.
+    const handleToggle = () => {
+        const video = videoRef.current;
+
+        if (video && !isPlaying) {
+            video.muted = false;
+            video.play().catch(() => {});
+        }
+
+        onToggle();
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            onClick={isVideo ? handleToggle : undefined}
+            className={`min-w-[70vw] md:min-w-[380px] aspect-[9/16] bg-zinc-950 rounded-[32px] overflow-hidden relative group snap-start border border-white/5 transition-all duration-700 ${isVideo ? 'cursor-pointer' : 'cursor-default'} ${isPlaying ? 'ring-2 ring-white/30' : ''}`}
+        >
+            {isVideo ? (
+                <>
+                    {item.poster ? (
+                        <img
+                            src={item.poster}
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                            decoding="async"
+                            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
+                        />
+                    ) : null}
+                    <video
+                        ref={videoRef}
+                        loop
+                        playsInline
+                        preload="none"
+                        muted={!isPlaying}
+                        className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100 scale-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
+                        onMouseEnter={e => !isPlaying && e.currentTarget.play()}
+                        onMouseLeave={e => !isPlaying && e.currentTarget.pause()}
+                    >
+                        <source src={item.file} type="video/mp4" />
+                    </video>
+                </>
+            ) : (
+                <img
+                    src={item.file}
+                    alt={item.title}
+                    className="absolute inset-0 h-full w-full object-cover opacity-75 group-hover:opacity-100 grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                    loading="lazy"
+                />
+            )}
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
+                <p className="text-white text-sm md:text-base font-semibold tracking-wide">{item.title}</p>
+            </div>
+
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 pointer-events-none ${isPlaying ? 'opacity-0 scale-150' : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'} ${isVideo ? '' : 'hidden'}`}>
+                <div className="h-28 w-28 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center text-white border border-white/20">
+                    <Play fill="currentColor" size={40} />
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
 const App = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [playingWithAudio, setPlayingWithAudio] = useState(null);
@@ -153,75 +239,6 @@ const App = () => {
     const heroVideo = `${BASE_URL}hero/loop.mp4`;
     const heroPoster = `${BASE_URL}hero/poster.webp`;
 
-    const MediaReel = ({ item, isPlaying, onToggle }) => {
-        const videoRef = useRef(null);
-        const isVideo = item.type === 'video';
-
-        useEffect(() => {
-            if (isVideo && videoRef.current) {
-                if (isPlaying) {
-                    videoRef.current.muted = false;
-                    videoRef.current.play().catch(e => console.log("Play blocked:", e));
-                } else {
-                    videoRef.current.muted = true;
-                }
-            }
-        }, [isPlaying, isVideo]);
-
-        return (
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                onClick={isVideo ? onToggle : undefined}
-                className={`min-w-[70vw] md:min-w-[380px] aspect-[9/16] bg-zinc-950 rounded-[32px] overflow-hidden relative group snap-start border border-white/5 transition-all duration-700 ${isVideo ? 'cursor-pointer' : 'cursor-default'} ${isPlaying ? 'ring-2 ring-white/30' : ''}`}
-            >
-                {isVideo ? (
-                    <>
-                        {item.poster ? (
-                            <img
-                                src={item.poster}
-                                alt=""
-                                aria-hidden="true"
-                                loading="lazy"
-                                decoding="async"
-                                className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
-                            />
-                        ) : null}
-                        <video
-                            ref={videoRef}
-                            loop
-                            playsInline
-                            preload="none"
-                            muted={!isPlaying}
-                            className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100 scale-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
-                            onMouseEnter={e => !isPlaying && e.currentTarget.play()}
-                            onMouseLeave={e => !isPlaying && e.currentTarget.pause()}
-                        >
-                            <source src={item.file} type="video/mp4" />
-                        </video>
-                    </>
-                ) : (
-                    <img
-                        src={item.file}
-                        alt={item.title}
-                        className="absolute inset-0 h-full w-full object-cover opacity-75 group-hover:opacity-100 grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-                        loading="lazy"
-                    />
-                )}
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
-                    <p className="text-white text-sm md:text-base font-semibold tracking-wide">{item.title}</p>
-                </div>
-
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 pointer-events-none ${isPlaying ? 'opacity-0 scale-150' : 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100'} ${isVideo ? '' : 'hidden'}`}>
-                    <div className="h-28 w-28 rounded-full bg-white/10 backdrop-blur-xl flex items-center justify-center text-white border border-white/20">
-                        <Play fill="currentColor" size={40} />
-                    </div>
-                </div>
-            </motion.div>
-        );
-    };
 
     return (
         <div className="relative overflow-hidden bg-[#050505] font-['Outfit'] selection:bg-amber-500 selection:text-black text-white px-[50px] md:px-0">
