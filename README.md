@@ -83,8 +83,13 @@ original camera files cannot be committed.
 - `public/data/` holds web-optimized versions that are committed and served:
   video at 1080p H.264 (CRF 23, faststart), stills as quality-4 JPEG.
 
-To re-encode after adding new masters, re-run the ffmpeg pass that produced
-`public/data` (it skips files that already exist).
+To re-encode after adding new masters:
+
+```bash
+./scripts/encode-media.sh
+```
+
+It skips files that already exist, so it only processes what is new.
 
 ## Data flow
 
