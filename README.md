@@ -57,6 +57,35 @@ npm run build
 npm run preview
 ```
 
+## Deployment (GitHub Pages)
+
+The site deploys automatically. Any push to `main` triggers
+`.github/workflows/deploy.yml`, which builds the site and publishes it to
+GitHub Pages at:
+
+**https://theebal-ghanem.github.io/Portfolio/**
+
+One-time setup (needs repo admin): in **Settings > Pages**, set
+**Source** to **GitHub Actions**.
+
+Because the site lives under `/Portfolio/` rather than a domain root,
+`vite.config.js` sets `base: '/Portfolio/'` and the app builds media URLs
+from `import.meta.env.BASE_URL`. If the repo is ever renamed, or moved to a
+custom domain, update `base` to match.
+
+## Media: masters vs. web files
+
+GitHub rejects files over 100 MB and caps Pages sites at about 1 GB, so the
+original camera files cannot be committed.
+
+- `masters/` holds the untouched originals. It is gitignored and stays on
+  your machine only — back it up separately.
+- `public/data/` holds web-optimized versions that are committed and served:
+  video at 1080p H.264 (CRF 23, faststart), stills as quality-4 JPEG.
+
+To re-encode after adding new masters, re-run the ffmpeg pass that produced
+`public/data` (it skips files that already exist).
+
 ## Data flow
 
 - Script: `scripts/generate-manifest.mjs`
