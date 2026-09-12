@@ -65,8 +65,16 @@ const getMediaType = (fileName) => {
 // component type on every render, so React unmounted and remounted all 29
 // cards each time state changed - destroying the <video> element mid-load
 // and discarding whatever had started playing.
+const HOVER_DELAY_MS = 220;
+
+// Touch browsers fire mouseenter on tap too, which would start a muted preview
+// and fight the tap handler for the same element.
+const canHover = () =>
+    typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+
 const MediaReel = ({ item, isPlaying, onToggle }) => {
     const videoRef = useRef(null);
+    const hoverTimer = useRef(null);
     const isVideo = item.type === 'video';
 
     useEffect(() => {
@@ -92,12 +100,43 @@ const MediaReel = ({ item, isPlaying, onToggle }) => {
         onToggle();
     };
 
+    // Hover preview. The handlers live on the card rather than the <video>
+    // because the caption gradient covers the video and swallows its pointer
+    // events. Clips are several MB each and preload="none", so a hover only
+    // commits to loading one after the pointer has settled - sweeping the
+    // mouse across a row downloads nothing.
+    const startPreview = () => {
+        if (isPlaying || !canHover()) return;
+
+        clearTimeout(hoverTimer.current);
+        hoverTimer.current = setTimeout(() => {
+            const video = videoRef.current;
+            if (!video) return;
+
+            video.muted = true;
+            video.play().catch(() => {});
+        }, HOVER_DELAY_MS);
+    };
+
+    const stopPreview = () => {
+        clearTimeout(hoverTimer.current);
+
+        const video = videoRef.current;
+        if (!video || isPlaying) return;
+
+        video.pause();
+    };
+
+    useEffect(() => () => clearTimeout(hoverTimer.current), []);
+
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             onClick={isVideo ? handleToggle : undefined}
+            onMouseEnter={isVideo ? startPreview : undefined}
+            onMouseLeave={isVideo ? stopPreview : undefined}
             className={`min-w-[70vw] md:min-w-[380px] aspect-[9/16] bg-zinc-950 rounded-[32px] overflow-hidden relative group snap-start border border-white/5 transition-all duration-700 ${isVideo ? 'cursor-pointer' : 'cursor-default'} ${isPlaying ? 'ring-2 ring-white/30' : ''}`}
         >
             {isVideo ? (
@@ -119,8 +158,6 @@ const MediaReel = ({ item, isPlaying, onToggle }) => {
                         preload="none"
                         muted={!isPlaying}
                         className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ${isPlaying ? 'opacity-100 scale-100' : 'opacity-60 group-hover:opacity-100 grayscale-[30%] group-hover:grayscale-0'}`}
-                        onMouseEnter={e => !isPlaying && e.currentTarget.play()}
-                        onMouseLeave={e => !isPlaying && e.currentTarget.pause()}
                     >
                         <source src={item.file} type="video/mp4" />
                     </video>
