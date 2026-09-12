@@ -97,11 +97,26 @@ Then regenerate the poster frames used by the grid:
 ./scripts/generate-posters.sh
 ```
 
-This writes one JPEG per video into `public/posters/`, mirroring the campaign
-folders. The grid sets `preload="none"` on every video and shows these posters
-instead, so opening the site downloads a few hundred KB of stills rather than
-every clip at once. Clips load when hovered or clicked. A video without a
-poster still works; the card just starts out blank.
+This writes one WebP per video into `public/posters/`, mirroring the campaign
+folders, and builds the hero loop in `public/hero/`.
+
+## How the page stays light
+
+A first visit transfers about 580 KB; the campaign clips themselves load only
+when a reel is tapped or clicked. That comes from four things:
+
+- Every grid video sets `preload="none"` and shows its poster as a real
+  `<img loading="lazy">`. The native `poster` attribute downloads on mount for
+  every video regardless of visibility, which defeats the point.
+- The hero uses a purpose-built 8s silent loop (`public/hero/`) rather than a
+  full campaign clip. It renders at 30% opacity in grayscale, so it is encoded
+  for weight, not fidelity.
+- The second hero video plays via IntersectionObserver when scrolled near,
+  instead of autoplaying on mount and racing the first for the same file.
+- Posters and stills are WebP, sized for how they actually display (640px
+  posters, 1400px stills) rather than at full resolution.
+
+A video without a poster still works; the card just starts out blank.
 
 ## Data flow
 
