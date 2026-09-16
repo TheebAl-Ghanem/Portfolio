@@ -386,13 +386,13 @@ const App = () => {
 
             {/* Campaigns Mapping */}
             {campaigns.map((campaign, cIdx) => (
-                <section key={campaign.id} id={campaign.id} className="py-[15vh] px-10 md:px-[250px] border-t border-white/5">
-                    <div className="mb-24 max-w-5xl mx-auto">
-                        <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[15px] mb-8 block">Archive—0{cIdx + 1}</span>
+                <section key={campaign.id} id={campaign.id} className="py-16 md:py-[15vh] px-10 md:px-[250px] border-t border-white/5">
+                    <div className="mb-10 md:mb-24 max-w-5xl mx-auto">
+                        <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[6px] md:tracking-[15px] mb-4 md:mb-8 block">Archive—0{cIdx + 1}</span>
                         <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-8">{campaign.title}</h2>
                     </div>
 
-                    <div className="flex overflow-x-auto pb-12 gap-10 no-scrollbar snap-x snap-mandatory">
+                    <div className="flex overflow-x-auto pb-6 md:pb-12 gap-5 md:gap-10 no-scrollbar snap-x snap-mandatory">
                         {campaign.items.map((item, idx) => (
                             <MediaReel
                                 key={item.id}
@@ -406,9 +406,9 @@ const App = () => {
             ))}
 
             {/* About Section */}
-            <section id="about" className="py-[30vh] px-10 md:pl-[250px] md:pr-0 bg-[#070707] overflow-hidden">
-                <div className="flex flex-col lg:flex-row gap-24 lg:gap-48 items-center">
-                    <div className="w-full min-w-0 space-y-20 lg:w-1/2">
+            <section id="about" className="py-20 md:py-[30vh] px-10 md:pl-[250px] md:pr-0 bg-[#070707] overflow-hidden">
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-48 items-center">
+                    <div className="w-full min-w-0 space-y-10 md:space-y-20 lg:w-1/2">
                         <div className="space-y-8">
                             <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[20px] block">Capabilities</span>
                             <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] md:text-9xl font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
@@ -441,11 +441,11 @@ const App = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-[40vh] px-10 md:px-[250px] text-center bg-[#050505] relative overflow-hidden">
+            <section id="contact" className="py-24 md:py-[40vh] px-10 md:px-[250px] text-center bg-[#050505] relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 <div className="max-w-5xl mx-auto">
-                    <h2 className="text-6xl md:text-[12rem] font-black uppercase tracking-tighter mb-32 leading-none">Let's Ignite <br /> the Vision.</h2>
-                    <div className="flex flex-col md:flex-row justify-center gap-20 md:gap-40">
+                    <h2 className="text-6xl md:text-[12rem] font-black uppercase tracking-tighter mb-12 md:mb-32 leading-none">Let's Ignite <br /> the Vision.</h2>
+                    <div className="flex flex-col md:flex-row justify-center gap-10 md:gap-40">
                         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Theeb.97x@gmail.com" target="_blank" rel="noopener noreferrer" className="group">
                             <p className="text-[10px] font-black uppercase tracking-[4px] md:tracking-[8px] text-zinc-500 mb-6">Email (Gmail)</p>
                             <p className="text-xl md:text-3xl font-bold break-words group-hover:text-white transition-all group-hover:tracking-wider">Theeb.97x@gmail.com</p>
@@ -458,7 +458,7 @@ const App = () => {
                 </div>
             </section>
 
-            <footer className="py-24 px-10 md:px-[250px] text-center border-t border-white/5">
+            <footer className="py-12 md:py-24 px-10 md:px-[250px] text-center border-t border-white/5">
                 <p className="text-zinc-600 text-[10px] uppercase tracking-[10px]">&copy; 2026 THEEB VISUALS</p>
             </footer>
 
