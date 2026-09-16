@@ -418,14 +418,14 @@ const App = () => {
                             Specializing in high-impact short-form content. From the raw energy of street fashion to the technical precision of automotive cinema. We don't just record; we architect visual experiences.
                         </p>
 
-                        <div className="grid grid-cols-2 gap-10 pt-8 max-w-xl">
-                            <div className="p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
-                                <p className="text-[11px] uppercase tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
+                        <div className="grid grid-cols-2 gap-4 md:gap-10 pt-8 max-w-xl">
+                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
                             </div>
-                            <div className="p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
-                                <p className="text-[11px] uppercase tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
+                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
                             </div>
                         </div>
                     </div>
@@ -447,12 +447,12 @@ const App = () => {
                     <h2 className="text-6xl md:text-[12rem] font-black uppercase tracking-tighter mb-32 leading-none">Let's Ignite <br /> the Vision.</h2>
                     <div className="flex flex-col md:flex-row justify-center gap-20 md:gap-40">
                         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Theeb.97x@gmail.com" target="_blank" rel="noopener noreferrer" className="group">
-                            <p className="text-[10px] font-black uppercase tracking-[8px] text-zinc-500 mb-6">Email (Gmail)</p>
-                            <p className="text-3xl font-bold group-hover:text-white transition-all group-hover:tracking-wider">Theeb.97x@gmail.com</p>
+                            <p className="text-[10px] font-black uppercase tracking-[4px] md:tracking-[8px] text-zinc-500 mb-6">Email (Gmail)</p>
+                            <p className="text-xl md:text-3xl font-bold break-words group-hover:text-white transition-all group-hover:tracking-wider">Theeb.97x@gmail.com</p>
                         </a>
                         <a href="https://www.instagram.com/theeb_alghanem?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="group">
-                            <p className="text-[10px] font-black uppercase tracking-[8px] text-zinc-500 mb-6">Instagram</p>
-                            <p className="text-3xl font-bold group-hover:text-white transition-all group-hover:tracking-wider">@theeb.alghanem</p>
+                            <p className="text-[10px] font-black uppercase tracking-[4px] md:tracking-[8px] text-zinc-500 mb-6">Instagram</p>
+                            <p className="text-xl md:text-3xl font-bold break-words group-hover:text-white transition-all group-hover:tracking-wider">@theeb.alghanem</p>
                         </a>
                     </div>
                 </div>
@@ -469,12 +469,12 @@ const App = () => {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 z-[60] bg-[#050505] flex flex-col items-center justify-center p-10"
+                        className="fixed inset-0 z-[60] bg-[#050505] flex flex-col items-center overflow-y-auto overscroll-contain p-10"
                     >
-                        <button onClick={() => setIsMenuOpen(false)} className="absolute top-10 right-10">
+                        <button onClick={() => setIsMenuOpen(false)} className="fixed top-10 right-10 z-10" aria-label="Close menu">
                             <X size={40} />
                         </button>
-                        <div className="flex flex-col items-center gap-10">
+                        <div className="my-auto flex flex-col items-center gap-10 py-4">
                             <a href="#home" onClick={() => setIsMenuOpen(false)} className="text-4xl font-black uppercase tracking-tighter text-white">Home</a>
 
                             <div className="flex flex-col items-center gap-6">
