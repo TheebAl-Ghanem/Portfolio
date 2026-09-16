@@ -278,7 +278,7 @@ const App = () => {
 
 
     return (
-        <div className="relative overflow-hidden bg-[#050505] font-['Outfit'] selection:bg-amber-500 selection:text-black text-white px-[50px] md:px-0">
+        <div className="relative overflow-hidden bg-[#050505] font-['Outfit'] selection:bg-amber-500 selection:text-black text-white">
             {/* Custom Cursor */}
             <motion.div
                 className="pointer-events-none fixed left-0 top-0 z-[10000] h-6 w-6 mix-blend-difference hidden md:block"
@@ -290,7 +290,7 @@ const App = () => {
             {/* Navbar */}
             <motion.nav
                 style={{ backgroundColor: navbarBg }}
-                className="fixed top-0 z-50 flex h-24 w-full items-center justify-between px-14 md:px-[250px] backdrop-blur-xl border-b border-white/5"
+                className="fixed top-0 z-50 flex h-24 w-full items-center justify-between px-10 md:px-10 lg:px-24 xl:px-[250px] backdrop-blur-xl border-b border-white/5"
             >
                 <div className="text-3xl font-black uppercase tracking-tighter">
                     THEEB<span className="text-zinc-500">.</span>
@@ -324,7 +324,7 @@ const App = () => {
 
                     <a href="#about" className="text-[10px] font-black uppercase tracking-[4px] text-zinc-500 hover:text-white transition-colors">About</a>
 
-                    <a href="#contact" className="rounded-full bg-white px-16 py-6 text-sm font-black uppercase tracking-[3px] text-black hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-2xl flex items-center justify-center min-w-[200px]">
+                    <a href="#contact" className="rounded-full bg-white px-8 py-5 lg:px-16 lg:py-6 text-sm font-black uppercase tracking-[3px] text-black hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-2xl flex items-center justify-center min-w-[200px]">
                         Let's Talk
                     </a>
                 </div>
@@ -407,14 +407,14 @@ const App = () => {
 
             {/* About Section */}
             <section id="about" className="py-[30vh] px-10 md:pl-[250px] md:pr-0 bg-[#070707] overflow-hidden">
-                <div className="flex flex-col lg:flex-row gap-48 items-center">
-                    <div className="space-y-20 lg:w-1/2">
+                <div className="flex flex-col lg:flex-row gap-24 lg:gap-48 items-center">
+                    <div className="w-full min-w-0 space-y-20 lg:w-1/2">
                         <div className="space-y-8">
-                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[20px] block">Capabilities</span>
-                            <h2 className="text-7xl md:text-9xl font-black uppercase tracking-tighter leading-[0.85]">Theeb <br /> Storytelling.</h2>
+                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[20px] block">Capabilities</span>
+                            <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] md:text-9xl font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
                         </div>
 
-                        <p className="text-zinc-500 text-3xl font-light leading-relaxed max-w-2xl tracking-wide">
+                        <p className="text-zinc-500 text-xl md:text-3xl font-light leading-relaxed max-w-2xl tracking-wide">
                             Specializing in high-impact short-form content. From the raw energy of street fashion to the technical precision of automotive cinema. We don't just record; we architect visual experiences.
                         </p>
 

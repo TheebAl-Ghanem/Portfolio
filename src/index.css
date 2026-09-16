@@ -15,11 +15,17 @@
     --font: 'Outfit', sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
+/* Must stay inside @layer base. Unlayered CSS outranks every cascade layer,
+   so as a bare `* { }` rule this reset silently beat Tailwind's utilities and
+   stripped padding and margin site-wide - px-10, py-[30vh], mb-32 and the rest
+   all did nothing. */
+@layer base {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+    }
 }
 
 html {
