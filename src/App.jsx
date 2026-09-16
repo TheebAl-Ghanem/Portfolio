@@ -410,22 +410,22 @@ const App = () => {
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-48 items-center">
                     <div className="w-full min-w-0 space-y-10 md:space-y-20 lg:w-1/2">
                         <div className="space-y-8">
-                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[20px] block">Capabilities</span>
-                            <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] md:text-9xl font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
+                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[10px] xl:tracking-[20px] block">Capabilities</span>
+                            <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] lg:text-[clamp(2.5rem,calc(7vw_-_33px),8rem)] font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
                         </div>
 
                         <p className="text-zinc-500 text-xl md:text-3xl font-light leading-relaxed max-w-2xl tracking-wide">
                             Specializing in high-impact short-form content. From the raw energy of street fashion to the technical precision of automotive cinema. We don't just record; we architect visual experiences.
                         </p>
 
-                        <div className="grid grid-cols-2 gap-4 md:gap-10 pt-8 max-w-xl">
-                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
-                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
+                        <div className="grid grid-cols-2 gap-4 md:gap-6 xl:gap-10 pt-8 max-w-xl">
+                            <div className="p-4 md:p-6 xl:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl xl:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] xl:tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
                             </div>
-                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
-                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
+                            <div className="p-4 md:p-6 xl:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl xl:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] xl:tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
                             </div>
                         </div>
                     </div>
