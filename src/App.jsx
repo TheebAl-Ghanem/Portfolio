@@ -335,7 +335,7 @@ const App = () => {
             </motion.nav>
 
             {/* Hero Section */}
-            <section id="home" className="relative h-[95vh] w-full flex items-center justify-center text-center px-10 md:px-[250px]">
+            <section id="home" className="relative h-[95vh] w-full flex items-center justify-center text-center px-10 md:px-16 lg:px-24 xl:px-[250px]">
                 <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 -z-10">
                     <video autoPlay muted loop playsInline poster={heroPoster || undefined} className="h-full w-full object-cover opacity-30 grayscale">
                         {heroVideo ? <source src={heroVideo} type="video/mp4" /> : null}
@@ -373,20 +373,20 @@ const App = () => {
             </section>
 
             {loadingCampaigns ? (
-                <section className="py-24 px-10 md:px-[250px] border-t border-white/5">
+                <section className="py-24 px-10 md:px-16 lg:px-24 xl:px-[250px] border-t border-white/5">
                     <p className="text-zinc-400 text-sm uppercase tracking-[6px]">Loading work...</p>
                 </section>
             ) : null}
 
             {campaignLoadError ? (
-                <section className="py-24 px-10 md:px-[250px] border-t border-white/5">
+                <section className="py-24 px-10 md:px-16 lg:px-24 xl:px-[250px] border-t border-white/5">
                     <p className="text-red-300 text-sm uppercase tracking-[4px]">Could not load media manifest: {campaignLoadError}</p>
                 </section>
             ) : null}
 
             {/* Campaigns Mapping */}
             {campaigns.map((campaign, cIdx) => (
-                <section key={campaign.id} id={campaign.id} className="py-16 md:py-[15vh] px-10 md:px-[250px] border-t border-white/5">
+                <section key={campaign.id} id={campaign.id} className="py-16 md:py-[15vh] px-10 md:px-16 lg:px-24 xl:px-[250px] border-t border-white/5">
                     <div className="mb-10 md:mb-24 max-w-5xl mx-auto">
                         <span className="text-zinc-500 text-[10px] font-black uppercase tracking-[6px] md:tracking-[15px] mb-4 md:mb-8 block">Archive—0{cIdx + 1}</span>
                         <h2 className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-8">{campaign.title}</h2>
@@ -406,31 +406,31 @@ const App = () => {
             ))}
 
             {/* About Section */}
-            <section id="about" className="py-20 md:py-[30vh] px-10 md:pl-[250px] md:pr-0 bg-[#070707] overflow-hidden">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-48 items-center">
-                    <div className="w-full min-w-0 space-y-10 md:space-y-20 lg:w-1/2">
+            <section id="about" className="py-20 md:py-[30vh] px-10 md:pl-16 lg:pl-24 xl:pl-[250px] md:pr-0 bg-[#070707] overflow-hidden">
+                <div className="flex flex-col lg:flex-row gap-12 items-center">
+                    <div className="w-full min-w-0 space-y-10 md:space-y-20 lg:w-3/5">
                         <div className="space-y-8">
-                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[10px] xl:tracking-[20px] block">Capabilities</span>
-                            <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] lg:text-[clamp(2.5rem,calc(7vw_-_33px),8rem)] font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
+                            <span className="text-zinc-400 text-xs font-black uppercase tracking-[6px] md:tracking-[20px] block">Capabilities</span>
+                            <h2 className="text-[clamp(1.75rem,9vw,4.5rem)] lg:text-[clamp(2.5rem,calc(8.2vw_-_25px),8rem)] font-black uppercase tracking-tighter leading-[0.85] break-words">Theeb <br /> Storytelling.</h2>
                         </div>
 
                         <p className="text-zinc-500 text-xl md:text-3xl font-light leading-relaxed max-w-2xl tracking-wide">
                             Specializing in high-impact short-form content. From the raw energy of street fashion to the technical precision of automotive cinema. We don't just record; we architect visual experiences.
                         </p>
 
-                        <div className="grid grid-cols-2 gap-4 md:gap-6 xl:gap-10 pt-8 max-w-xl">
-                            <div className="p-4 md:p-6 xl:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-4xl xl:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
-                                <p className="text-[11px] uppercase tracking-[1px] xl:tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
+                        <div className="grid grid-cols-2 gap-4 md:gap-10 pt-8 max-w-xl">
+                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.length}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Key Campaigns</p>
                             </div>
-                            <div className="p-4 md:p-6 xl:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
-                                <h3 className="text-4xl xl:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
-                                <p className="text-[11px] uppercase tracking-[1px] xl:tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
+                            <div className="p-4 md:p-10 bg-zinc-900/40 backdrop-blur-md rounded-3xl border border-white/5 group hover:border-white/20 transition-all duration-500">
+                                <h3 className="text-4xl md:text-5xl font-black mb-3 text-white group-hover:scale-110 transition-transform origin-left">{campaigns.reduce((acc, c) => acc + c.items.length, 0)}</h3>
+                                <p className="text-[11px] uppercase tracking-[1px] md:tracking-[3px] text-zinc-500 font-black">Signature Reels</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="relative w-full lg:w-1/2 h-[70vh] grayscale hover:grayscale-0 transition-all duration-1000 group">
+                    <div className="relative w-full lg:w-2/5 h-[70vh] grayscale hover:grayscale-0 transition-all duration-1000 group">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#070707] to-transparent z-10 w-32" />
                         <video ref={aboutVideoRef} muted loop playsInline preload="none" poster={heroPoster || undefined} className="h-full w-full object-cover rounded-l-3xl lg:rounded-none">
                             {heroVideo ? <source src={heroVideo} type="video/mp4" /> : null}
@@ -441,7 +441,7 @@ const App = () => {
             </section>
 
             {/* Contact Section */}
-            <section id="contact" className="py-24 md:py-[40vh] px-10 md:px-[250px] text-center bg-[#050505] relative overflow-hidden">
+            <section id="contact" className="py-24 md:py-[40vh] px-10 md:px-16 lg:px-24 xl:px-[250px] text-center bg-[#050505] relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 <div className="max-w-5xl mx-auto">
                     <h2 className="text-6xl md:text-[12rem] font-black uppercase tracking-tighter mb-12 md:mb-32 leading-none">Let's Ignite <br /> the Vision.</h2>
@@ -458,7 +458,7 @@ const App = () => {
                 </div>
             </section>
 
-            <footer className="py-12 md:py-24 px-10 md:px-[250px] text-center border-t border-white/5">
+            <footer className="py-12 md:py-24 px-10 md:px-16 lg:px-24 xl:px-[250px] text-center border-t border-white/5">
                 <p className="text-zinc-600 text-[10px] uppercase tracking-[10px]">&copy; 2026 THEEB VISUALS</p>
             </footer>
 
